@@ -1,4 +1,5 @@
 # Discgolf scorekeeper - Frisbeegolf pistetilasto
+Tietokantasovellus harjoitustyö joulu 2015
 
 Yleisiä linkkejä:
 
