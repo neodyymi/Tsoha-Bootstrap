@@ -1,10 +1,10 @@
-# Tietokantasovelluksen esittelysivu
+# Discgolf scorekeeper - Frisbeegolf pistetilasto
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* [Linkki sovellukseeni](http://vrsaari.users.cs.helsinki.fi/discgolf/)
+* [Linkki dokumentaatiooni](https://raw.githubusercontent.com/neodyymi/Tsoha-Bootstrap/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
 
-Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html) 
+Frisbeegolf on kilpailullinen laji ja harrastajat pitävät mielellään tuloksistaan kirjaa. Järjestelmän tarkoituksena on helpottaa tätä kirjanpitoa ja luoda mahdollisuuksia tulosten vertailuun ja tuloskehityksen tutkintaan. Lisäksi järjestelmään voi käyttää eri ratojen vaikeuden arviointiin ja oman tuloksen vertailua muihin samalla radalla heitettyihin kierroksiin. Kuka tahansa voi luoda itselleen tilin ja alkaa säilömään tuloshistoriaansa palveluun.
