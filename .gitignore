@@ -5,3 +5,4 @@
 *.toc
 *.graphml
 *.synctex.gz
+.atom-build.json

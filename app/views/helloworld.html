@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Painikkeet</h1>
+  <button>Tavallinen painike</button>
+  <button class="btn btn-default">Bootstrap painike</button>
+  <button class="btn btn-primary">Bootstrap painike</button>
+  <button class="btn btn-success">Bootstrap painike</button>
+  <button class="btn btn-danger">Bootstrap painike</button>
+
+  <h1>Tekstikentät</h1>
+  <input placeholder="Tavallinen tekstikenttä" type="text">
+  <input class="form-control" placeholder="Bootstrap tekstikenttä" type="text">
+
+  <h1>Taulukot</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Tavallinen</th>
+        <th>Taulukko</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Tekstiä</td>
+        <td>Tekstiä</td>
+      </tr>
+      <tr>
+        <td>Tekstiä</td>
+        <td>Tekstiä</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Bootstrap</th>
+        <th>Taulukko</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Tekstiä</td>
+        <td>Tekstiä</td>
+      </tr>
+      <tr>
+        <td>Tekstiä</td>
+        <td>Tekstiä</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}

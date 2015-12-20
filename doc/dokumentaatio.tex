@@ -64,9 +64,60 @@ Toteutus tapahtuu Postgres-tietokantaa käyttävänä PHP-sovelluksena johon on 
 \newpage
 \section{Järjestelmän tietosisältö}
 \subsection{Tietosisällön käsitekaavio}
+\includegraphics[scale=0.6]{tsoha_tietosisalto}
 \subsection{Tietokohteet}
+\subsubsection{Käyttäjä}
+    \begin{tabular}{ | l | p{3cm} | p{5cm} |}
+    \hline
+    Attribuutti & Arvojoukko & Kuvailu\\ \hline
+    nimi & Merkkijono, max. 50 merkkiä & Käyttäjän koko nimi. \\ \hline
+    kotirata & integer & Kotiradan id. \\ \hline
+    tunnus & Merkkijono, max. 15 merkkiä & Käyttäjän tunnus. \\ \hline
+    salasana & Binääri & Salasanan tiiviste ja suola. \\ \hline
+    ylläpitäjä & Boolean & Tosi, jos käyttäjä on ylläpitäjä \\ \hline
+    \end{tabular}\\
+Käyttäjään voi liittyä useita muita käyttäjiä ns. seurattujen käyttäjien tai kaverilistan muodossa. Käyttäjään voi liittyä useita tuloksia. Lisäksi käyttäjällä voi olla useita ratoja moderoitavanaan.
+\subsubsection{Rata}
+    \begin{tabular}{ | l | p{3cm} | p{5cm} |}
+    \hline
+    Attribuutti & Arvojoukko & Kuvailu\\ \hline
+    nimi & Merkkijono, max. 100 merkkiä & Radan nimi. \\ \hline
+    sijainti & Merkkijono, max. 300 merkkiä & Radan osoite. \\ \hline
+    karttalinkki & Merkkijono, max. 300 merkkiä & Linkki radan sijaintiin karttapalvelussa. \\ \hline
+    kuvaus & Merkkijono, max. 500 merkkiä & Kuvaus radasta. \\ \hline
+    \end{tabular}\\
+Rataan liittyy vähintään yksi moderaattori. Moderaattoriksi määritellään aluksi käyttäjä joka radan lisää palveluun. Rataan kuuluu myös väyliä ja kierroksia.
+\subsubsection{Väylä}
+    \begin{tabular}{ | l | p{3cm} | p{5cm} |}
+    \hline
+    Attribuutti & Arvojoukko & Kuvailu\\ \hline
+    rata & integer & Radan, johon väylä kuuluu, id. \\ \hline
+    nimi & Merkkijono, max. 100 merkkiä & Väylän mahdollinen nimi, voi olla myös tyhjä. \\ \hline
+    par & integer & Väylän ihann	etulos. \\ \hline
+    väylänumero & integer & Monesko väylä radalla. \\ \hline
+    käytössä & Boolean & Tosi, jos väylä on edelleen käytössä. \\ \hline
+    \end{tabular}\\
+Väylä liittyy aina johonkin rataan ja tietää itse monesko väylä radalla on. Tuloksen ja väylän välillä on yhteys, jotta tulos tietää mikä on väylän ihannetulos.
+\subsubsection{Kierros}
+    \begin{tabular}{ | l | p{3cm} | p{5cm} |}
+    \hline
+    Attribuutti & Arvojoukko & Kuvailu\\ \hline
+    rata & integer & Radan, jolla kierros pelattiin, id. \\ \hline
+    ajankohta & Datetime & Kierroksen aloitusajankohta. \\ \hline
+    käyttäjä & integer & Kierroksen lisänneen käyttäjän id. \\ \hline
+    \end{tabular}\\
+Kierros liittyy aina rataan ja kierrokseen liittyy yksi tai useampi tulos, riippuen siitä montako pelaajaa kierroksella on ollut. Kierros on itsessään kuvaus tapahtuneesta pelikierroksesta kyseisellä radalla.
+\subsubsection{Tulos}
+    \begin{tabular}{ | l | p{3cm} | p{5cm} |}
+    \hline
+    Attribuutti & Arvojoukko & Kuvailu\\ \hline
+    kierros & integer & Kierroksen, jolta tulos on, id. \\ \hline
+    käyttäjä & integer & Käyttäjän, jota tulos koskee, id. \\ \hline
+    nimi & Merkkijono, max. 50 merkkiä & Jos pelaaja ei ole vielä käyttäjä, voidaan antaa merkkijonona nimi pelaajalle. \\ \hline
+    \end{tabular}\\
+Tulos on yhden pelaajan tulos. Käyttäjä kenttä voi olla tyhjä, jos pelaaja ei ole käyttäjä. Tulos tietää miltä väylältä tulos on, ja varsinainen numeerinen heittojen määrä tallennetaankin tuloksen ja väylän väliseen liitostauluun.
 \newpage
 \section{Relaatiotietokanta}
 \subsection{Relaatiotietokantakaavio}
-
+\includegraphics[scale=0.6]{tsoha_relaatiotietokantakaavio	}
 \end{document}
