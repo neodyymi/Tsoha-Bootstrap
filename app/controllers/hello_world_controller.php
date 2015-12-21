@@ -25,7 +25,7 @@
     public static function login() {
       View::make('suunnitelmat/login.html');
     }
-    
+
     public static function round_edit() {
       View::make('suunnitelmat/round_edit.html');
     }

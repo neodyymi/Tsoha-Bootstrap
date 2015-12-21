@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<form role="form" class="form-horizontal">
+  <div class="form-group">
+    <label for="rata" class="control-label col-sm-2">Rata</label>
+    <div class="col-sm-4">
+      <select id="rata" class="col-sm-12">
+        <option selected="true">
+          Valitse rata
+        </option>
+        <option>
+          Talin frisbeegolfpuisto
+        </option>
+        <option>
+          Kivikon frisbeegolfrata
+        </option>
+        <option>
+          Siltamäki
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pelaajia" class="control-label col-sm-2">Pelaajien määrä</label>
+    <div class="col-sm-2">
+      <input type="number" id="pelaajia" class="col-sm-12" value="1">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Pelaajien nimet</label>
+      <input type="text" id="pelaaja1" placeholder="Nimi" class="col-sm-2">
+      <input type="text" id="pelaaja1" placeholder="Nimi" class="col-sm-2">
+      <input type="text" id="pelaaja1" placeholder="Nimi" class="col-sm-2">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 1</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 2</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 3</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 4</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 5</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 6</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 7</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+    <div class="form-inline col-sm-12">
+      <label class="control-label col-sm-2">Väylä 8</label>
+      <input type="number" class="col-sm-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+      <input type="number" class="col-sm-1 col-sm-offset-1" id="p1_h1">
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary col-sm-offset-1">Lisää kierros</button>
+  </div>
+</form>
+{% endblock %}
