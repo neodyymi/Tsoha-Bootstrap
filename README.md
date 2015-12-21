@@ -9,3 +9,10 @@ Yleisiä linkkejä:
 ## Työn aihe
 
 Frisbeegolf on kilpailullinen laji ja harrastajat pitävät mielellään tuloksistaan kirjaa. Järjestelmän tarkoituksena on helpottaa tätä kirjanpitoa ja luoda mahdollisuuksia tulosten vertailuun ja tuloskehityksen tutkintaan. Lisäksi järjestelmään voi käyttää eri ratojen vaikeuden arviointiin ja oman tuloksen vertailua muihin samalla radalla heitettyihin kierroksiin. Kuka tahansa voi luoda itselleen tilin ja alkaa säilömään tuloshistoriaansa palveluun.
+
+## Viikko 2
+### Sivu-suunnitelmat
+* [Login/Etusivu](http://vrsaari.users.cs.helsinki.fi/discgolf/suunnitelmat/login)
+* [Kierrosten listaus](http://vrsaari.users.cs.helsinki.fi/discgolf/suunnitelmat/round)
+* [Kierroksen muokkaus](http://vrsaari.users.cs.helsinki.fi/discgolf/suunnitelmat/round/edit/1)
+* [Kierroksen tarkastelu](http://vrsaari.users.cs.helsinki.fi/discgolf/suunnitelmat/round/1)
