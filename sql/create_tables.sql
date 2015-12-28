@@ -1,3 +1,13 @@
+CREATE TABLE Course(
+  id SERIAL PRIMARY KEY,
+  name varchar(100) NOT NULL,
+  address varchar(300),
+  maplink varchar(300),
+  url varchar(300),
+  description varchar(500),
+  added TIMESTAMP DEFAULT now(),
+  edited TIMESTAMP DEFAULT now()
+);
 CREATE TABLE Player(
   id SERIAL PRIMARY KEY,
   name varchar(50),
@@ -6,26 +16,15 @@ CREATE TABLE Player(
   password varchar(100) NOT NULL,
   admin boolean DEFAULT FALSE
 );
-
 CREATE TABLE Buddylist(
   playerId INTEGER REFERENCES Player(id),
-  friendId INTEGER REFERENCES Player(id)
+  friendId INTEGER REFERENCES Player(id),
   accepted boolean DEFAULT FALSE
 );
-
 CREATE TABLE Course_moderators(
   playerId INTEGER REFERENCES Player(id),
   courseId INTEGER REFERENCES Course(id)
 );
-
-CREATE TABLE Course(
-  id SERIAL PRIMARY KEY,
-  name varchar(100) NOT NULL,
-  address varchar(300),
-  map_link varchar(300),
-  description varchar(500)
-);
-
 CREATE TABLE Hole(
   id SERIAL PRIMARY KEY,
   courseId INTEGER REFERENCES Course(id),
@@ -34,21 +33,18 @@ CREATE TABLE Hole(
   holeNumber INTEGER NOT NULL,
   inUse boolean DEFAULT TRUE
 );
-
 CREATE TABLE Round(
   id SERIAL PRIMARY KEY,
   courseId INTEGER REFERENCES Course(id),
-  played DATE
+  played TIMESTAMP DEFAULT now(),
   addedBy INTEGER REFERENCES Player(id)
 );
-
 CREATE TABLE Score(
   id SERIAL PRIMARY KEY,
   roundId INTEGER REFERENCES Round(id),
   playerId INTEGER REFERENCES Player(id),
   name varchar(50)
 );
-
 CREATE TABLE Score_Hole(
   holeId INTEGER REFERENCES Hole(id),
   scoreId INTEGER REFERENCES Score(id),

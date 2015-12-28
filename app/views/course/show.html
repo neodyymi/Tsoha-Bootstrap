@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-4">
+    <div class="row">
+      <div class="col-sm-10 well well-sm">
+        <div class="h4">
+          <strong>{{course.name}}</strong><br>
+        </div>
+        <div>
+          {{course.description}}
+        </div>
+        {% if not course.url is empty %}
+          <div>
+            <a href="{{course.url}}">Ulkoinen linkki</a>
+          </div>
+        {% endif %}
+        <br>
+        <div>
+          <strong>Sijainti:</strong><br>
+          {{course.address}}<br>
+          <a href="{{course.mapLink}}">Karttalinkki</a>
+        </div>
+      </div>
+      <div class="col-sm-10 well well-sm">
+        <dl>
+          <dt>
+            Lisätty
+          </dt>
+          <dl>
+            {{course.added|date("d.m.Y H:n", "Europe/Helsinki")}} {% if course.added != course.edited %} (edit:{{course.edited}}) {% endif %}
+          </dl>
+          <dt>
+            Moderaattori(t)
+          </dt>
+          <dl>
+            {% for m in course.moderators %}
+            <a href="{{base_path}}/player/{{m.id}}">{{ m.name }}</a>{% if not loop.last %}<br>{% endif %}
+            {% endfor %}
+          </dl>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <th class="col-sm-2">
+          Pelattu
+        </th>
+        <th class="col-sm-3">
+          Pelaajia
+        </th>
+        <th class="col-sm-3">
+          Paras tulos
+        </th>
+        <th class="col-sm-2">
+          Keskiarvo
+        </th>
+      </thead>
+      <tbody>
+        {% for round in course.rounds %}
+        <tr>
+
+          <td>
+            <a href="{{base_path}}/round/{{round.id}}">{{round.played|date("d.m.y H:n", "Europe/Helsinki")}}</a>
+          </td>
+          <td>
+            {{round.players}}
+          </td>
+          <td class={% if round.best > round.average+4 %}"danger"{% elseif round.best > round.average-4 %}"info"{% else %}"success"{% endif %}>
+            {{round.best}} ({{round.best-round.par}})
+          </td>
+          <td>
+            {{round.average}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <!-- <tfoot>
+        <tr>
+          <td>
+            <strong>
+            Yht.
+            </strong>
+          </td>
+          <td>
+            <strong>
+            13 (-4)
+            </strong>
+          </td>
+          <td>
+            <strong>
+            25 (+8)
+            </strong>
+          </td>
+          <td>
+            <strong>
+            {{average}}
+            </strong>
+          </td>
+        </tr>
+      </tfoot> -->
+    </table>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

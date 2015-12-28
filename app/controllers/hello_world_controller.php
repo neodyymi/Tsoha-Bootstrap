@@ -1,5 +1,4 @@
 <?php
-
   class HelloWorldController extends BaseController{
 
     public static function index(){
@@ -11,7 +10,12 @@
     public static function sandbox(){
       // Testaa koodiasi täällä
       // echo 'Hello World!';
-      View::make('helloworld.html');
+      // View::make('helloworld.html');
+      $tali = Course::find(2);
+      $courses = Course::all();
+
+      Kint::dump($tali);
+      Kint::dump($courses);
     }
 
     public static function round_list() {

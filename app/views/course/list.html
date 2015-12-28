@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="col-xs-offset-0 col-xs-sm-12 col-md-offset-11 col-md-1">
+    <a href="{{base_path}}/course/add" class="btn btn-sm btn-default">Lisää rata</a>
+  </div>
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th>Rata</th>
+        <th>Heitettyjä kierroksia</th>
+        <th>Paras tulos</th>
+        <th>Lisätty</th>
+        <th>Moderaattorit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+        <tr>
+          <td><a href="{{base_path}}/course/{{course.id}}">{{course.name}}</a></td>
+          <td>{{course.rounds|length}}</td>
+          <td>
+            {% if course.rounds|length == 0 %}
+            -
+            {% else %}
+            {{course.best}} ({{course.best - course.par}})
+            {% endif %}
+          </td>
+          <td>{{course.added|date("d.m.y H:n", "Europe/Helsinki")}} {% if course.added != course.edited %} (edit:{{course.edited}}) {% endif %}</td>
+          <td>
+            {% for m in course.moderators %}
+            <a href="{{base_path}}/player/{{m.id}}">{{ m.name }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

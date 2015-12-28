@@ -1,13 +1,13 @@
+INSERT INTO Course (name, address, maplink, url, description) VALUES ('Siltamäki', 'Pallomäentie, 00740 Helsinki', 'https://www.google.com/maps?q=60.2730,24.9830', 'http://frisbeegolfradat.fi/rata/siltamaen_frisbeegolfrata_helsinki/', 'Kumpuileva, jonkin verran korkeuseroja');
+INSERT INTO Course (name, address, maplink, url, description) VALUES ('Talin frisbeegolfpuisto', 'Talinhuippu (Takkatie), 00360 Helsinki', 'http://maps.google.com/?q=60.2131,24.8468', 'http://frisbeegolfradat.fi/rata/talin_frisbeegolfpuisto_helsinki/', 'Talin Tallaajat ry:n talkoovoimin ylläpitämä 18-väyläinen frisbeegolfrata.');
+INSERT INTO Course (name, address, url) VALUES ('Kivikon frisbeegolfrata', 'Savikiekontie 8 00940 Helsinki', 'http://frisbeegolfradat.fi/rata/kivikon_frisbeegolfrata/');
+
 INSERT INTO Player (name, courseId, username, password, admin) VALUES ('Jack Bauer', 1, 'jbauer', 'jackisbest', TRUE);
 INSERT INTO Player (name, courseId, username, password) VALUES ('Barry Basic', 2, 'barry', 'barry');
 INSERT INTO Player (name, username, password) VALUES ('Annie Average', 'average', 'average');
 
 INSERT INTO Buddylist (playerId, friendId) VALUES (2, 1);
 INSERT INTO Buddylist (playerId, friendId, accepted) VALUES (3, 1, TRUE);
-
-INSERT INTO Course (name, address, map_link, description) VALUES ('Siltamäki', 'Pallomäentie, 00740 Helsinki', 'https://www.google.com/maps?q=60.2730,24.9830', 'Kumpuileva, jonkin verran korkeuseroja');
-INSERT INTO Course (name, address, map_link, description) VALUES ('Talin frisbeegolfpuisto', 'Talinhuippu (Takkatie), 00360 Helsinki', 'http://maps.google.com/?q=60.2131,24.8468', 'Talin Tallaajat ry:n talkoovoimin ylläpitämä 18-väyläinen frisbeegolfrata.');
-INSERT INTO Course (name, address) VALUES ('Kivikon frisbeegolfrata', 'Savikiekontie 8 00940 Helsinki');
 
 INSERT INTO Course_moderators (playerId, courseId) VALUES (1, 1);
 INSERT INTO Course_moderators (playerId, courseId) VALUES (1, 2);
