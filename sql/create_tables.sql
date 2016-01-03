@@ -16,11 +16,11 @@ CREATE TABLE Player(
   password varchar(100) NOT NULL,
   admin boolean DEFAULT FALSE
 );
-CREATE TABLE Buddylist(
-  playerId INTEGER REFERENCES Player(id),
-  friendId INTEGER REFERENCES Player(id),
-  accepted boolean DEFAULT FALSE
-);
+-- CREATE TABLE Buddylist(
+--   playerId INTEGER REFERENCES Player(id),
+--   friendId INTEGER REFERENCES Player(id),
+--   accepted boolean DEFAULT FALSE
+-- );
 CREATE TABLE Course_moderators(
   playerId INTEGER REFERENCES Player(id),
   courseId INTEGER REFERENCES Course(id)

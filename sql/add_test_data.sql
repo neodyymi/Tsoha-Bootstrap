@@ -6,8 +6,8 @@ INSERT INTO Player (name, courseId, username, password, admin) VALUES ('Jack Bau
 INSERT INTO Player (name, courseId, username, password) VALUES ('Barry Basic', 2, 'barry', 'barry');
 INSERT INTO Player (name, username, password) VALUES ('Annie Average', 'average', 'average');
 
-INSERT INTO Buddylist (playerId, friendId) VALUES (2, 1);
-INSERT INTO Buddylist (playerId, friendId, accepted) VALUES (3, 1, TRUE);
+-- INSERT INTO Buddylist (playerId, friendId) VALUES (2, 1);
+-- INSERT INTO Buddylist (playerId, friendId, accepted) VALUES (3, 1, TRUE);
 
 INSERT INTO Course_moderators (playerId, courseId) VALUES (1, 1);
 INSERT INTO Course_moderators (playerId, courseId) VALUES (1, 2);
