@@ -120,4 +120,19 @@ Tulos on yhden pelaajan tulos. Käyttäjä kenttä voi olla tyhjä, jos pelaaja 
 \section{Relaatiotietokanta}
 \subsection{Relaatiotietokantakaavio}
 \includegraphics[scale=0.6]{tsoha_relaatiotietokantakaavio}
+\newpage
+\section{Käyttöönotto}
+\subsection{Asennustiedot}
+Sovellus asennetaan kopioimalla sen tiedostot palvelimelle hakemistoon joka näkyy ulospäin verkkoon (esim. htdocs tai vastaava). 
+Tietokannan tiedot täytyy asettaa oikeiksi \texttt{config/database.php}-tiedostoon. 
+Lisäksi tulee ajaa käytettävään tietokantaan \texttt{sql/create\_tables.sql}-tiedosto.
+\texttt{sql/drop\_tables.sql}-tiedosto sisältää tarvittavat käskyt luotujen taulujen tuhoamiseen tarvittaessa ja \texttt{sql/add\_test\_data.sql} sisältää esimerkkidataa tietokantaan. 
+\subsection{Käynnistys- ja käyttöohje}
+Demo sivusta löytyy osoitteesta \url{http://vrsaari.users.cs.helsinki.fi/discgolf}.
+Kirjautuminen tapahtuu yhdellä kolmesta tunnuksesta (\texttt{username : password}):
+\begin{itemize}
+\item \texttt{jbauer : jackisbest}
+\item \texttt{average : average}
+\item \texttt{barry : barry}
+\end{itemize}
 \end{document}

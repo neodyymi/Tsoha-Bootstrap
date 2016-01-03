@@ -42,7 +42,7 @@
             <li><a href="{{base_path}}">Etusivu</a></li>
             <li><a href="{{base_path}}/course">Radat</a></li>
             <li><a href="{{base_path}}/round">Viimeisimmät kierrokset</a></li>
-            <li><a href="{{base_path}}/player">Käyttäjä</a></li>
+            <li>{% if user_logged_in %}<a href="{{base_path}}/player">Käyttäjä</a>{% else %}<a href="{{base_path}}/login">Kirjaudu</a>{% endif %}</li>
           </ul>
         </div>
       </div>
