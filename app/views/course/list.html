@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="col-xs-offset-0 col-xs-sm-12 col-md-offset-11 col-md-1">
-    <a href="{{base_path}}/course/add" class="btn btn-sm btn-default">Lisää rata</a>
+    <a href="{{base_path}}/course/new" class="btn btn-sm btn-default">Lisää rata</a>
   </div>
   <table class="table table-hover table-responsive">
     <thead>
@@ -25,7 +25,7 @@
             {{course.best}} ({{course.best - course.par}})
             {% endif %}
           </td>
-          <td>{{course.added|date("d.m.y H:n", "Europe/Helsinki")}} {% if course.added != course.edited %} (edit:{{course.edited}}) {% endif %}</td>
+          <td>{{course.added|date("d.m.y H:i", "Europe/Helsinki")}} {% if course.added != course.edited %} (edit: {{course.edited|date("d.m.y H:i", "Europe/Helsinki")}}) {% endif %}</td>
           <td>
             {% for m in course.moderators %}
             <a href="{{base_path}}/player/{{m.id}}">{{ m.name }}</a>{% if not loop.last %}, {% endif %}

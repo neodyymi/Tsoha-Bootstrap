@@ -5,43 +5,42 @@
   <div class="col-sm-4">
     <div class="row">
       <div class="col-sm-10 well well-sm">
-        <div class="h4">
-          <strong>{{course.name}}</strong><br>
+        <div class="h4" style="text-transform: uppercase">
+          <strong>{{user_logged_in.username}}</strong><br>
         </div>
         <div>
-          {{forms.edit_link("#{base_path}/course/#{course.id}/edit")}}
+          {{forms.edit_link("#{base_path}/player/#{user_logged_in.id}/edit")}}
           {{forms.destroy_button("#{base_path}/course/#{course.id}/destroy")}}
         </div>
         <div>
-          {{course.description}}
+          {{user_logged_in.name}}
         </div>
-        {% if not course.url is empty %}
+        {% if not user_logged_in.course.name is empty %}
           <div>
-            <a href="{{course.url}}">Ulkoinen linkki</a>
+            <a href="{{base_path}}/course/{{user_logged_in.course.id}}">{{user_logged_in.course.name}}</a>
           </div>
         {% endif %}
-        <br>
-        <div>
-          <strong>Sijainti:</strong><br>
-          {{course.address}}<br>
-          <a href="{{course.mapLink}}">Karttalinkki</a>
-        </div>
       </div>
       <div class="col-sm-10 well well-sm">
         <dl>
           <dt>
-            Lisätty
+            Liittynyt
           </dt>
           <dl>
-            {{course.added|date("d.m.Y H:i", "Europe/Helsinki")}}
-            {% if course.added != course.edited %} (edit: {{course.edited|date("d.m.Y H:i", "Europe/Helsinki")}}) {% endif %}
+            {{user_logged_in.joined|date("d.m.Y H:i", "Europe/Helsinki")}}
           </dl>
           <dt>
-            Moderaattori(t)
+            Kirjautunut
           </dt>
           <dl>
-            {% for m in course.moderators %}
-            <a href="{{base_path}}/player/{{m.id}}">{{ m.name }}</a>{% if not loop.last %}<br>{% endif %}
+            {{user_logged_in.login|date("d.m.Y H:i", "Europe/Helsinki")}})
+          </dl>
+          <dt>
+            Moderoitavat
+          </dt>
+          <dl>
+            {% for c in user_logged_in.moderator %}
+            <a href="{{base_path}}/course/{{c.id}}">{{ c.name }}</a>{% if not loop.last %}<br>{% endif %}
             {% endfor %}
           </dl>
         </dl>
@@ -54,10 +53,16 @@
         <th class="col-sm-2">
           Pelattu
         </th>
-        <th class="col-sm-3">
+        <th class="col-sm-2">
+          Rata
+        </th>
+        <th class="col-sm-2">
           Pelaajia
         </th>
-        <th class="col-sm-3">
+        <th class="col-sm-2">
+          Oma tulos
+        </th>
+        <th class="col-sm-2">
           Paras tulos
         </th>
         <th class="col-sm-2">
@@ -65,20 +70,26 @@
         </th>
       </thead>
       <tbody>
-        {% for round in course.rounds %}
+        {% for score in scores %}
         <tr>
 
           <td>
-            <a href="{{base_path}}/round/{{round.id}}">{{round.played|date("d.m.y H:i", "Europe/Helsinki")}}</a>
+            <a href="{{base_path}}/round/{{score.round.id}}">{{score.round.played|date("d.m.y H:i", "Europe/Helsinki")}}</a>
           </td>
           <td>
-            {{round.players}}
-          </td>
-          <td class={% if round.best > round.average+4 %}"danger"{% elseif round.best > round.average-4 %}"info"{% else %}"success"{% endif %}>
-            {{round.best}} ({{round.best-round.par}})
+            <a href="{{base_path}}/course/{{score.round.course.id}}">{{score.round.course.name}}</a>
           </td>
           <td>
-            {{round.average}}
+            {{score.round.players}}
+          </td>
+          <td>
+            {{score.throws}} ({{score.throws-score.par}})
+          </td>
+          <td>
+            {{score.round.best}} ({{score.round.best-score.round.par}})
+          </td>
+          <td>
+            {{score.round.average}}
           </td>
         </tr>
         {% endfor %}

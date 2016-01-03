@@ -2,9 +2,9 @@ INSERT INTO Course (name, address, maplink, url, description) VALUES ('Siltamäk
 INSERT INTO Course (name, address, maplink, url, description) VALUES ('Talin frisbeegolfpuisto', 'Talinhuippu (Takkatie), 00360 Helsinki', 'http://maps.google.com/?q=60.2131,24.8468', 'http://frisbeegolfradat.fi/rata/talin_frisbeegolfpuisto_helsinki/', 'Talin Tallaajat ry:n talkoovoimin ylläpitämä 18-väyläinen frisbeegolfrata.');
 INSERT INTO Course (name, address, url) VALUES ('Kivikon frisbeegolfrata', 'Savikiekontie 8 00940 Helsinki', 'http://frisbeegolfradat.fi/rata/kivikon_frisbeegolfrata/');
 
-INSERT INTO Player (name, courseId, username, password, admin) VALUES ('Jack Bauer', 1, 'jbauer', 'jackisbest', TRUE);
-INSERT INTO Player (name, courseId, username, password) VALUES ('Barry Basic', 2, 'barry', 'barry');
-INSERT INTO Player (name, username, password) VALUES ('Annie Average', 'average', 'average');
+INSERT INTO Player (name, courseId, username, password, admin) VALUES ('Jack Bauer', 1, 'jbauer', 'jacksibest', TRUE); -- Password 'jackisbest' password_hash-versio '$2y$10$Q/wvL6EKZ/vlFb3hwuThR.AbO1qzGpsCngPkm.5J60cbdCHueT.cy'
+INSERT INTO Player (name, courseId, username, password) VALUES ('Barry Basic', 2, 'barry', 'barry'); -- Password 'barry', password_hash-versio '$2y$10$AL3kdMxEDFIkkstfSd1mNeEOAJw.OmY7ufoljKfkUgx845RYiXgrC'
+INSERT INTO Player (name, username, password) VALUES ('Annie Average', 'average', 'average'); -- Password 'average', password_hash-versio '$2y$10$TpnDaX0/kbVG8u9KC.BANOQTwf5.fyxb8T6F4F6AgEAB91.mQ8q3i'
 
 -- INSERT INTO Buddylist (playerId, friendId) VALUES (2, 1);
 -- INSERT INTO Buddylist (playerId, friendId, accepted) VALUES (3, 1, TRUE);

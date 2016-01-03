@@ -12,9 +12,11 @@ CREATE TABLE Player(
   id SERIAL PRIMARY KEY,
   name varchar(50),
   courseId INTEGER REFERENCES Course(id),
-  username varchar(15) NOT NULL,
-  password varchar(100) NOT NULL,
-  admin boolean DEFAULT FALSE
+  username varchar(15) NOT NULL UNIQUE,
+  password varchar(255) NOT NULL,
+  admin boolean DEFAULT FALSE,
+  joined TIMESTAMP DEFAULT now(),
+  login TIMESTAMP DEFAULT now()
 );
 -- CREATE TABLE Buddylist(
 --   playerId INTEGER REFERENCES Player(id),

@@ -52,6 +52,29 @@ class Score extends BaseModel {
     return $scores;
   }
 
+  public static function find_by_player($playerId) {
+    $query = DB::connection()->prepare('SELECT * FROM Score WHERE playerid = :playerId');
+    $query->execute(array('playerId' => $playerId));
+    $rows = $query->fetchAll();
+
+    $scores = array();
+
+    foreach ($rows as $row) {
+      $tmp = Score::getScore($row['id']);
+      $throws = $tmp['throws'];
+      $par = $tmp['par'];
+
+      $scores[] = new Score(array(
+        'id' => $row['id'],
+        'player' => Player::find($row['playerid']),
+        'round' => Round::find($row['roundid']),
+        'throws' => $throws,
+        'par' => $par
+      ));
+    }
+    return $scores;
+  }
+
   public static function find($id) {
     $query = DB::connection()->prepare('SELECT * FROM Score WHERE id = :id LIMIT 1');
     $query->execute(array('id' => $id));

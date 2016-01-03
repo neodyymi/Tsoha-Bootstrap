@@ -1,0 +1,9 @@
+{% macro destroy_button(action, text) %}
+  <form method="post" action="{{action}}" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger btn-xs">{{text|default('Poista')}}</button>
+  </form>
+{% endmacro %}
+
+{% macro edit_link(action, text) %}
+  <a href="{{action}}" class="btn btn-warning btn-xs">{{text|default('Muokkaa')}}</a>
+{% endmacro %}

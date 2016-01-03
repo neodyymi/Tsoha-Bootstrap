@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-center">Kirjaudu sisään</h1>
+<form method="post" action="{{base_path}}/login">
+  <div class=form-group>
+    <label class="col-sm-offset-2 col-sm-3 control-label">Käyttäjätunnus tai sähköposti</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" name="username" placeholder="Käyttäjätunnus tai sähköposti">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-offset-2 col-sm-3 control-label">Salasana</label>
+    <div class="col-sm-5">
+      <input type="password" class="form-control" name="password" placeholder="Salasana">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-5 col-sm-5">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Muista kirjautuminen.
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-5 col-sm-5">
+      <button type="submit" class="btn btn-default">Kirjaudu</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -44,7 +44,7 @@ class Round extends BaseModel {
   }
 
   public static function find($id) {
-    $query = DB::connection()->prepare('SELECT r.id, c.name AS course, r.played, p.name AS addedby FROM Round r LEFT JOIN Course c ON r.courseid = c.id LEFT JOIN Player p ON r.addedby = p.id WHERE r.id = :id LIMIT 1');
+    $query = DB::connection()->prepare('SELECT r.id, c.id AS course, r.played, p.name AS addedby FROM Round r LEFT JOIN Course c ON r.courseid = c.id LEFT JOIN Player p ON r.addedby = p.id WHERE r.id = :id LIMIT 1');
     $query->execute(array('id' => $id));
     $row = $query->fetch();
 
@@ -61,9 +61,9 @@ class Round extends BaseModel {
         $sum += $score->throws;
       }
       $avg = $sum / count($scores);
-      $rounds[] = new Round(array(
+      $round = new Round(array(
         'id' => $row['id'],
-        'course' => $row['course'],
+        'course' => Course::find($row['course']),
         'played' => $row['played'],
         'addedBy' => $row['addedby'],
         'scores' => $scores,

@@ -42,13 +42,30 @@
             <li><a href="{{base_path}}">Etusivu</a></li>
             <li><a href="{{base_path}}/course">Radat</a></li>
             <li><a href="{{base_path}}/round">Viimeisimmät kierrokset</a></li>
-            <li><a href="{{base_path}}/player">Käyttäjät</a></li>
+            <li><a href="{{base_path}}/player">Käyttäjä</a></li>
           </ul>
         </div>
       </div>
     </nav>
 
     <div id="main-container">
+      {% if error %}
+      <div class="alert alert-danger">
+        {{error}}
+      </div>
+      {% endif %}
+      {% if errors|length > 0 %}
+      <div class="alert alert-danger">
+        {% for error in errors %}
+        {{error}}{% if not loop.last %}<br>{% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if message %}
+      <div class="alert alert-success">
+        {{message}}
+      </div>
+      {% endif %}
       <!-- Dynaaminen sisältö tulee tähän -->
       {% block content %}{% endblock %}
     </div>

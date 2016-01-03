@@ -1,7 +1,7 @@
 <?php
 
   $routes->get('/', function() {
-    HelloWorldController::index();
+    CourseController::list_all();
   });
 
   $routes->get('/hiekkalaatikko', function() {
@@ -24,6 +24,7 @@
     HelloWorldController::login();
   });
 
+## Course
   $routes->get('/course', function() {
     CourseController::list_all();
   });
@@ -36,10 +37,31 @@
     CourseController::create();
   });
 
+  $routes->get('/course/:id', function($id) {
+    CourseController::show($id);
+  });
+
   $routes->get('/course/:id/edit', function($id) {
     CourseController::edit($id);
   });
 
-  $routes->get('/course/:id', function($id) {
-    CourseController::show($id);
+  $routes->post('/course/:id/edit', function($id) {
+    CourseController::update($id);
+  });
+
+  $routes->post('/course/:id/destroy', function($id) {
+    CourseController::destroy($id);
+  });
+
+## User / Player / Login
+  $routes->get('/login', function(){
+    PlayerController::login();
+  });
+
+  $routes->post('/login', function(){
+    PlayerController::handle_login();
+  });
+
+  $routes->get('/player', function() {
+    PlayerController::list_all();
   });

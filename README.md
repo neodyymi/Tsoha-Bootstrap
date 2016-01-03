@@ -17,8 +17,15 @@ Frisbeegolf on kilpailullinen laji ja harrastajat pitävät mielellään tuloksi
 * [Kierroksen muokkaus](http://vrsaari.users.cs.helsinki.fi/discgolf/suunnitelmat/round/edit/1)
 * [Kierroksen tarkastelu](http://vrsaari.users.cs.helsinki.fi/discgolf/suunnitelmat/round/1)
 
-## Viikko 2
-###Radalle luodut listaus-, esittely- ja lisäysnäkymät.
+## Viikko 3
+### Radalle luodut listaus-, esittely- ja lisäysnäkymät.
 * [Lisäys](http://vrsaari.users.cs.helsinki.fi/discgolf/course/new)
 * [Listaus](http://vrsaari.users.cs.helsinki.fi/discgolf/course)
 * [Esittely](http://vrsaari.users.cs.helsinki.fi/discgolf/course/1)
+
+## Viikko 4
+### Kirjautuminen
+* 3 käyttäjätunnusta
+  * jbauer : jackisbest
+  * average : average
+  * barry : barry
