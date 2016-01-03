@@ -31,7 +31,7 @@ class Player extends BaseModel {
     $query = DB::connection()->prepare('SELECT * FROM Player WHERE id = :id LIMIT 1');
     $query->execute(array('id' => $id));
     $row = $query->fetch();
-    
+
     $courses = Course::find_by_moderator($id);
 
     if($row) {
@@ -43,7 +43,9 @@ class Player extends BaseModel {
         'username' => $row['username'],
         'password' => $row['password'],
         'moderator' => $courses,
-        'admin' => $row['admin']
+        'admin' => $row['admin'],
+        'joined' => $row['joined'],
+        'login' => $row['login']
       ));
       return $player;
     }
