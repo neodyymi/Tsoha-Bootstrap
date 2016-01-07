@@ -1,9 +1,20 @@
 <?php
 class Player extends BaseModel {
-  public $id, $name, $courseId, $course, $username, $password, $moderator, $admin, $joined, $login;
+  public $id, $name, $courseId, $course, $username, $password, $moderator, $admin, $joined, $login, $verify, $newPassword;
 
   public function __construct($attributes) {
     parent::__construct($attributes);
+    $this->validators = array("validate_name", "validate_nickname", "validate_new_password");
+  }
+
+  public function validate_name() {
+    return $this->validate_string_length("Nimi", $this->name, 2, 50);
+  }
+  public function validate_nickname() {
+    return $this->validate_string_length("Käyttäjänimi", $this->name, 2, 15);
+  }
+  public function validate_new_password() {
+    return $this->validate_password($this->password, $this->verify, $this->newPassword);
   }
 
   public static function all() {
@@ -77,7 +88,7 @@ class Player extends BaseModel {
   public static function find_by_round($roundId) {
     $query = DB::connection()->prepare('SELECT p.* FROM Round r INNER JOIN Score s ON r.id = s.roundid LEFT JOIN Player p ON s.playerid = p.id WHERE r.id = :roundId');
     $query->execute(array('roundId' => $roundId));
-    $row = $query->fetchAll();
+    $rows = $query->fetchAll();
 
     $players = array();
 
@@ -145,8 +156,13 @@ class Player extends BaseModel {
   }
 
   public function update() {
-    $query = DB::connection()->prepare('UPDATE Player SET name = :name, courseid = :courseid, username = :username, login = now() WHERE id = :id RETURNING login');
-    $query->execute(array('name' => $this->name, 'courseid' => $this->courseId, 'username' => $this->username, 'id' => $this->id));
+    if($this->newPassword) {
+      $query = DB::connection()->prepare('UPDATE Player SET name = :name, courseid = :courseid, username = :username, password = :password login = now() WHERE id = :id RETURNING login');
+      $query->execute(array('name' => $this->name, 'courseid' => $this->courseId, 'username' => $this->username, 'password' => $this->password, 'id' => $this->id));
+    } else {
+      $query = DB::connection()->prepare('UPDATE Player SET name = :name, courseid = :courseid, username = :username, login = now() WHERE id = :id RETURNING login');
+      $query->execute(array('name' => $this->name, 'courseid' => $this->courseId, 'username' => $this->username, 'id' => $this->id));
+    }
     $row = $query->fetch();
     $this->login = $row['login'];
   }

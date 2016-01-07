@@ -5,17 +5,25 @@
     public static function get_user_logged_in(){
       // Toteuta kirjautuneen käyttäjän haku tähän
       if(isset($_SESSION['user'])) {
-        $user_id = $_SESSION['user'];
-        $user = Player::find($user_id);
-
-        return $user;
+        $player_id = $_SESSION['user'];
+        $player = Player::find($player_id);
+        if($player == null) {
+          $_SESSION = null;
+        }
+        return $player;
       }
       return null;
     }
 
+    public static function is_admin() {
+      $player = Player::find($_SESSION['user']);
+      return $player->admin;
+    }
+
     public static function check_logged_in(){
-      // Toteuta kirjautumisen tarkistus tähän.
-      // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
+      if(!isset($_SESSION['user'])) {
+        Redirect::to('/login', array('message' => 'Kirjaudu ensin sisään!'));
+      }
     }
 
     public static function fix_url($url){

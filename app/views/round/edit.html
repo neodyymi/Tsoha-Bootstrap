@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="{{base_path}}/course/{{round.id}}/edit" class="col-md-offset-1 col-md-10 col-sm-offset-0 col-sm-12">
+   <div class="form-group">
+     <label>Radan nimi</label>
+     <input name="name" class="form-control" type="text" value="{{round.name}}">
+   </div>
+
+   <div class="form-group">
+     <label>Kuvaus</label>
+     <textarea name="description" class="form-control">{{round.description}}</textarea>
+   </div>
+
+   <div class="form-group">
+     <label>Osoite</label>
+     <input name="address" class="form-control" type="text" value="{{round.address}}">
+   </div>
+
+   <div class="form-group">
+     <label>Karttalinkki</label>
+     <input name="mapLink" class="form-control" type="text" value="{{round.mapLink}}">
+   </div>
+
+   <div class="form-group">
+     <label>Ulkoinen linkki</label>
+     <input name="url" class="form-control" type="text" value="{{round.url}}">
+   </div>
+
+   <!-- <div class="form-group">
+     <div>
+       <label>Väylien määrä</label>
+       <input name="holes" class="form-control" type="number">
+     </div>
+   </div> -->
+
+   <div class="form-group">
+     <button type="submit" class="btn btn-primary">Tallenna</button>
+   </div>
+ </form>
+
+{% endblock %}

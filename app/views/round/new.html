@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="{{base_path}}/round" class="col-md-offset-1 col-md-10 col-sm-offset-0 col-sm-12">
+   <div class="form-group">
+     <label>Rata</label>
+     <select name="course" class="form-control">
+       {% for course in courses %}
+       <option value="{{course.id}}" {% if course.id == selected %} selected="true" {% endif %}>{{course.name}}</option>
+       {% endfor %}
+     </select>
+     <input name="name" class="form-control" type="text" value="{% if attributes %}{{attributes.name}}{% endif %}">
+   </div>
+
+   <div class="form-group">
+     <label>Kuvaus</label>
+     <textarea name="description" class="form-control">{% if attributes %}{{attributes.description}}{% endif %}</textarea>
+   </div>
+
+   <div class="form-group">
+     <label>Osoite</label>
+     <input name="address" class="form-control" type="text" value="{% if attributes %}{{attributes.address}}{% endif %}">
+   </div>
+
+   <div class="form-group">
+     <label>Karttalinkki</label>
+     <input name="mapLink" class="form-control" type="text" value="{% if attributes %}{{attributes.mapLink}}{% endif %}">
+   </div>
+
+   <div class="form-group">
+     <label>Ulkoinen linkki</label>
+     <input name="url" class="form-control" type="text" value="{% if attributes %}{{attributes.url}}{% endif %}">
+   </div>
+
+   <div class="form-group">
+     <div>
+       <label>Väylien määrä</label>
+       <input name="holes" class="form-control" type="number">
+     </div>
+   </div>
+
+   <div class="form-group">
+     <button type="submit" class="btn btn-primary">Lisää rata</button>
+   </div>
+ </form>
+
+{% endblock %}

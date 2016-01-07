@@ -1,6 +1,6 @@
 <?php
 class Score extends BaseModel {
-  public $id, $player, $round, $throws, $par;
+  public $id, $playerId, $playerName, $round, $throws, $par, $holes;
 
   public function __construct($attributes){
     parent::__construct($attributes);
@@ -30,7 +30,7 @@ class Score extends BaseModel {
   }
 
   public static function find_by_round($roundId) {
-    $query = DB::connection()->prepare('SELECT * FROM Score WHERE roundid = :roundId');
+    $query = DB::connection()->prepare('SELECT s.id, s.roundid, s.playerid, p.name as name FROM Score s LEFT JOIN Player p ON s.playerid=p.id WHERE roundid = :roundId');
     $query->execute(array('roundId' => $roundId));
     $rows = $query->fetchAll();
 
@@ -40,13 +40,40 @@ class Score extends BaseModel {
       $tmp = Score::getScore($row['id']);
       $throws = $tmp['throws'];
       $par = $tmp['par'];
-
+      $holes = self::find_by_round_and_player($roundId, $row['playerid']);
       $scores[] = new Score(array(
         'id' => $row['id'],
-        'player' => $row['playerid'],
+        'playerId' => $row['playerid'],
+        'playerName' => $row['name'],
         'round' => $row['roundid'],
         'throws' => $throws,
-        'par' => $par
+        'par' => $par,
+        'holes' => $holes
+      ));
+    }
+    return $scores;
+  }
+
+  public static function find_by_round2($roundId) {
+    $players = Player::find_by_round($roundId);
+    $playerScores = array();
+    foreach ($players as $player) {
+      $playerScores[] = array('$player' => $player, 'scores' => self::find_by_round_and_player($roundId, $player->id));
+    }
+    return $playerScores;
+  }
+
+  public static function find_by_round_and_player($roundId, $playerId) {
+    $query = DB::connection()->prepare('SELECT sh.throws, h.holenumber, h.par FROM Score_Hole sh JOIN Score s ON sh.scoreId = s.id JOIN Hole h on h.id = sh.holeId WHERE s.playerid = :playerId AND s.roundId = :roundId ORDER BY holenumber');
+    $query->execute(array('roundId' => $roundId, 'playerId' => $playerId));
+    $rows = $query->fetchAll();
+    $scores = array();
+    foreach ($rows as $row) {
+      $scores = array_merge($scores, array(
+        $row['holenumber'] => array(
+          'throws' => $row['throws'],
+          'par' => $row['par']
+        )
       ));
     }
     return $scores;

@@ -25,10 +25,9 @@ class Course extends BaseModel {
   }
 
   public static function all() {
-    $query = DB::connection()->prepare('SELECT * FROM Course');
+    $query = DB::connection()->prepare('SELECT * FROM Course ORDER BY name');
     $query->execute();
     $rows = $query->fetchAll();
-
     $courses = array();
 
     foreach ($rows as $row) {
@@ -167,6 +166,9 @@ class Course extends BaseModel {
     return $return;
   }
 
+  public function holes() {
+    return Hole::find_by_course($this->id);
+  }
 
 
   public function save(){

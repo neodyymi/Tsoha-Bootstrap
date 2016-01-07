@@ -30,9 +30,25 @@
    <!-- <div class="form-group">
      <div>
        <label>Väylien määrä</label>
-       <input name="holes" class="form-control" type="number">
+       <input name="holes" class="form-control" type="number" value={{holes|length}}>
      </div>
    </div> -->
+   <div class="form-grup">
+     <div class="form-inline col-md-12">
+       <lable class="col-md-2">Väylä</lable>
+       <lable class="col-md-2">Nimi</lable>
+       <lable class="col-md-2">Par</lable>
+     </div>
+   </div>
+   {% for hole in holes %}
+   <div class="form-group">
+     <div class="form-inline col-md-12">
+       <label class="col-md-1 col-xs-3">{{hole.holenumber}}</label>
+       <input class="col-md-3 col-xs-6" name="{{hole.holenumber}}_name" type="text" value="{{hole.name}}">
+       <input class="col-md-1 col-xs-3" name="{{hole.holenumber}}_par" type="number" value="{{hole.par}}">
+     </div>
+   </div>
+   {% endfor %}
 
    <div class="form-group">
      <button type="submit" class="btn btn-primary">Tallenna</button>

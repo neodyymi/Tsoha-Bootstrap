@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="{{base_path}}/player/{{player.id}}/edit" class="col-md-offset-1 col-md-10 col-sm-offset-0 col-sm-12">
+  <div class="form-group">
+    <label>Nimi</label>
+    <input name="name" class="form-control" type="text" value="{{player.name}}">
+  </div>
+
+  <div class="form-group">
+    <label>Suosikkirata</label>
+    <select name="courseid" class="form-control">
+      <option value="">-</option>
+      {% for course in courses %}
+      <option value="{{course.id}}" {% if course.id == player.courseId %} selected="true" {% endif %}>{{course.name}}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Käyttäjänimi</label>
+    <input name="username" class="form-control" type="text" value="{{player.username}}">
+  </div>
+
+  <div class="form-group">
+    <label>Uusi salasana</label>
+    <input name="new_password" class="form-control" type="password">
+  </div>
+
+  <div class="form-group">
+    <label>Vahvista salasana</label>
+    <input name="password_verify" class="form-control" type="password">
+  </div>
+
+   <!-- <div class="form-group">
+     <div>
+       <label>Väylien määrä</label>
+       <input name="holes" class="form-control" type="number">
+     </div>
+   </div> -->
+   <br><br>
+   <div class="form-group">
+     <label>Nykyinen salasana</label>
+     <input name="password" class="form-control" type="password">
+   </div>
+
+   <div class="form-group">
+     <button type="submit" class="btn btn-primary">Tallenna muutokset</button>
+   </div>
+ </form>
+
+{% endblock %}

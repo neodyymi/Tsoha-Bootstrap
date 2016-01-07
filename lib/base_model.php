@@ -70,4 +70,22 @@
       return $errors;
     }
 
+    public function validate_password($password, $verify, $newPassword) {
+      $errors = array();
+      if($password != $verify) {
+        $errors[] = "Et toistanut samaa salasanaa kahteen kertaan.";
+      }
+      // if($newPassword) {
+      //   $errors = array_merge(validate_string_length("Salasana", $password, 5, 255));
+      // }
+      // Tänne voisi lisätä myös salasanan kompleksisuuteen liittyviä ehtoja.
+      // if(!preg_match("#[A-Z]+#",$password) {
+      //   $errors[] = "Salasanan täytyy sisältää vähintään 1 iso kirjain."
+      // }
+      // if(!preg_match("#[a-z]+#",$password) {
+      //   $errors[] = "Salasanan täytyy sisältää vähintään 1 pieni kirjain."
+      // }
+
+      return $errors;
+    }
   }

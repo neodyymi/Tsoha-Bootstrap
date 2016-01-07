@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/forms.html" as forms %}
+<div class="row">
+  <div class="col-sm-4">
+    <div class="row">
+      <div class="col-sm-10 well well-sm">
+        <div class="h4">
+          <a href="{{base_path}}/course/{{round.course.id}}">{{round.course.name}}</a><br>
+        </div>
+        <div>
+          <strong>{{round.played|date("d.m.Y H:i", "Europe/Helsinki")}}</strong><br>
+        </div>
+        <div>
+          {{forms.edit_link("#{base_path}/round/#{round.id}/edit")}}
+          {{forms.destroy_button("#{base_path}/round/#{round.id}/destroy")}}
+        </div>
+      </div>
+      <div class="col-sm-10 well well-sm">
+        <dl>
+          <dt>
+            Lisätty
+          </dt>
+          <dl>
+            {{round.added|date("d.m.Y H:i", "Europe/Helsinki")}}
+          </dl>
+          <dt>
+            Lisääjä
+          </dt>
+          <dl>
+            <a href="{{base_path}}/player/{{round.addedBy.id}}">{{ round.addedBy.name }}</a>
+          </dl>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-{{min(12, 2+2*round.players)}}">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <th class="col-md-1">
+          Väylä
+        </th>
+        <th class="col-md-1">
+          Par
+        </th>
+        {% for score in round.scores %}
+        <th class="col-md-{{min(10/round.players, 2)|round(0, 'floor')}}">
+          <a href="{{base_path}}/player/{{score.playerId}}">{{score.playerName}}</a>
+        </th>
+        {% endfor %}
+      </thead>
+      <tbody>
+        {% for i in 0..17 %}
+        <tr>
+          <td>
+            {{i+1}}
+          </td>
+          <td>
+            {{scores[0].scores[i].par}}
+          </td>
+          {% for s in scores %}
+          <td class={% if (s.scores[i].throws - s.scores[i].par < 0) %}"success"{% elseif (s.scores[i].throws - s.scores[i].par)>0 %}"danger"{% endif %}>
+          {{s.scores[i].throws}} ({{s.scores[i].throws - s.scores[i].par}})
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>
+            <strong>
+            Yht.
+            </strong>
+          </td>
+          <td>
+            <strong>
+            {{round.par}}
+            </strong>
+          </td>
+          {% for score in round.scores %}
+          <td>
+            <strong>
+            {{score.throws}}({{score.throws-round.par}})
+            </strong>
+          </td>
+          {% endfor %}
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

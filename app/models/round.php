@@ -1,13 +1,13 @@
 <?php
 class Round extends BaseModel {
-  public $id, $course, $scores, $played, $addedBy, $best, $par, $average, $players;
+  public $id, $course, $courseName, $courseId, $scores, $played, $addedBy, $best, $par, $average, $players;
 
   public function __construct($attributes) {
     parent::__construct($attributes);
   }
 
   public static function all() {
-    $query = DB::connection()->prepare('SELECT r.id, c.name AS course, r.played, p.name AS addedby FROM Round r LEFT JOIN Course c ON r.courseid = c.id LEFT JOIN Player p ON r.addedby = p.id');
+    $query = DB::connection()->prepare('SELECT r.id, c.name AS coursename, c.id AS courseid, r.played, p.name AS addedby FROM Round r LEFT JOIN Course c ON r.courseid = c.id LEFT JOIN Player p ON r.addedby = p.id ORDER BY r.played');
     $query->execute();
     $rows = $query->fetchAll();
 
@@ -29,7 +29,8 @@ class Round extends BaseModel {
       $avg = $sum / count($scores);
       $rounds[] = new Round(array(
         'id' => $row['id'],
-        'course' => $row['course'],
+        'courseName' => $row['coursename'],
+        'courseId' => $row['courseid'],
         'played' => $row['played'],
         'addedBy' => $row['addedby'],
         'scores' => $scores,
@@ -44,7 +45,7 @@ class Round extends BaseModel {
   }
 
   public static function find($id) {
-    $query = DB::connection()->prepare('SELECT r.id, c.id AS course, r.played, p.name AS addedby FROM Round r LEFT JOIN Course c ON r.courseid = c.id LEFT JOIN Player p ON r.addedby = p.id WHERE r.id = :id LIMIT 1');
+    $query = DB::connection()->prepare('SELECT r.id, c.id AS course, r.played, p.id AS addedby FROM Round r LEFT JOIN Course c ON r.courseid = c.id LEFT JOIN Player p ON r.addedby = p.id WHERE r.id = :id LIMIT 1');
     $query->execute(array('id' => $id));
     $row = $query->fetch();
 
@@ -65,7 +66,7 @@ class Round extends BaseModel {
         'id' => $row['id'],
         'course' => Course::find($row['course']),
         'played' => $row['played'],
-        'addedBy' => $row['addedby'],
+        'addedBy' => Player::find($row['addedby']),
         'scores' => $scores,
         'best' => $best,
         'par' => $par,
