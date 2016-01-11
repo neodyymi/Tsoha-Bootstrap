@@ -20,6 +20,15 @@
       return $player->admin;
     }
 
+    public static function get_is_admin() {
+      return is_admin();
+    }
+
+    public static function is_moderator($course) {
+      $moderators = Moderator::find_by_course($course);
+      return in_array(self::get_user_logged_in()->id, $moderators);
+    }
+
     public static function check_logged_in(){
       if(!isset($_SESSION['user'])) {
         Redirect::to('/login', array('message' => 'Kirjaudu ensin sisään!'));

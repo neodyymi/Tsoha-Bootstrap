@@ -1,6 +1,6 @@
 <?php
 class Score extends BaseModel {
-  public $id, $playerId, $playerName, $round, $throws, $par, $holes;
+  public $id, $playerId, $playerName, $roundId, $round, $throws, $par, $holes, $scores;
 
   public function __construct($attributes){
     parent::__construct($attributes);
@@ -21,7 +21,7 @@ class Score extends BaseModel {
       $scores[] = new Score(array(
         'id' => $row['id'],
         'player' => $row['playerid'],
-        'round' => $row['roundid'],
+        'roundId' => $row['roundid'],
         'throws' => $throws,
         'par' => $par
       ));
@@ -45,7 +45,7 @@ class Score extends BaseModel {
         'id' => $row['id'],
         'playerId' => $row['playerid'],
         'playerName' => $row['name'],
-        'round' => $row['roundid'],
+        'roundId' => $row['roundid'],
         'throws' => $throws,
         'par' => $par,
         'holes' => $holes
@@ -58,7 +58,7 @@ class Score extends BaseModel {
     $players = Player::find_by_round($roundId);
     $playerScores = array();
     foreach ($players as $player) {
-      $playerScores[] = array('$player' => $player, 'scores' => self::find_by_round_and_player($roundId, $player->id));
+      $playerScores[] = array('player' => $player, 'scores' => self::find_by_round_and_player($roundId, $player->id));
     }
     return $playerScores;
   }
@@ -71,6 +71,7 @@ class Score extends BaseModel {
     foreach ($rows as $row) {
       $scores = array_merge($scores, array(
         $row['holenumber'] => array(
+          'holenumber' => $row['holenumber'],
           'throws' => $row['throws'],
           'par' => $row['par']
         )
@@ -93,8 +94,8 @@ class Score extends BaseModel {
 
       $scores[] = new Score(array(
         'id' => $row['id'],
-        'player' => Player::find($row['playerid']),
-        'round' => Round::find($row['roundid']),
+        'player' => $playerId,
+        'roundId' => $row['roundid'],
         'throws' => $throws,
         'par' => $par
       ));
@@ -115,7 +116,7 @@ class Score extends BaseModel {
       $score = new Score(array(
         'id' => $row['id'],
         'player' => $row['playerid'],
-        'round' => $row['roundid'],
+        'roundId' => $row['roundid'],
         'throws' => $throws,
         'par' => $par
       ));
@@ -147,5 +148,74 @@ class Score extends BaseModel {
     }
     $return = array('par' => $par, 'throws' => $throws);
     return $return;
+  }
+
+  public static function saveRoundScores($params) {
+    $holes = Hole::count_holes($params['course']);
+    $players = $params['players'];
+    $course = $params['course'];
+
+  }
+
+  public static function updateRoundScores($params) {
+    $holes = Hole::count_holes($params['course']);
+    $players = array();
+    $score = null;
+    for ($i=0; $i < $params['players']; $i++) {
+      $split = explode('_', $params['player' . $i]);
+      $players[] = array('player' => $split[0], 'score' => $split[1]);
+      $score = new Score(array('id' => $split[1], 'playerId' => $split[0], 'roundId' => '3'));
+    }
+    foreach ($players as $player) {
+
+    }
+
+    $score->update();
+  }
+
+  public static function updatePlayerRound($player, $round, $scores) {
+    foreach ($scores as $score) {
+
+    }
+  }
+
+  public static function updateScoreHole($score, $hole, $result) {
+
+  }
+
+  public function save() {
+    $query = DB::connection()->prepare('INSERT INTO Score (roundid, playerid) VALUES (:roundId, :playerId) RETURNING id');
+    $query->execute(array('roundId' => $this->roundId, 'playerId' => $this->playerId));
+    $row = $query->fetch();
+    $this->id = $row['id'];
+    $query = DB::connection()->prepare('INSERT INTO Score_Hole (holeid, scoreid, throws) VALUES (:holeId, :scoreId, :throws)');
+    foreach ($this->scores as $holeScore) {
+      $query->execute(array('throws' => $holeScore['throws'], 'holeId' => $holeScore['holeId'], 'scoreId' => $this->id));
+    }
+  }
+
+  public function update() {
+    $query = DB::connection()->prepare('UPDATE Score SET roundid = :roundId, playerid = :playerId WHERE id = :id');
+    $query->execute(array('roundId' => $this->roundId, 'playerId' => $this->playerId, 'id' => $this->id));
+    if($this->scores) {
+      $round = Round::find($this->roundId);
+      $numberOfHoles = Hole::count_holes($round->courseId);
+      $scores = array_slice($this->scores, 0, $numberOfHoles);
+      foreach ($scores as $holeScore) {
+        $hole = Hole::find_by_course_and_holenumber($round->courseId, $holeScore['holenumber']);
+        $query = DB::connection()->prepare('UPDATE Score_Hole SET throws = :throws WHERE holeid = :holeId AND scoreid = :scoreId');
+        $exists = $query->execute(array('throws' => $holeScore['throws'], 'holeId' => $hole->id, 'scoreId' => $this->id));
+        if(!$exists) {
+          $query = DB::connection()->prepare('INSERT INTO Score_Hole (holeid, scoreid, throws) VALUES (:holeId, :scoreId, :throws)');
+          $query->execute(array('throws' => $holeScore['throws'], 'holeId' => $holeScore['holeId'], 'scoreId' => $this->id));
+        }
+      }
+    }
+    $this->clean();
+  }
+  public function clean() {
+    $courseId = Round::find($this->roundId)->courseId;
+    $query = DB::connection()->prepare('DELETE FROM score_hole WHERE holeid IN (SELECT sh.holeid FROM score_hole sh JOIN score s ON s.id = sh.scoreid JOIN hole h ON h.id = sh.holeid WHERE s.id = 1 AND NOT h.courseid = :courseid) AND scoreid IN (SELECT sh.scoreid FROM score_hole sh JOIN score s ON s.id = sh.scoreid JOIN hole h ON h.id = sh.holeid WHERE s.id = 1 AND NOT h.courseid = :courseid)');
+    $query->execute(array('courseid' => $courseId));
   }
 }

@@ -8,3 +8,26 @@
   max-width: 1200px;
   margin: 0px auto;
 }
+
+.horizontal-nopadding {
+   padding-left: 0 !important;
+   padding-right: 0 !important;
+   margin-left: 0 !important;
+   margin-right: 0 !important;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.round-edit-row {
+  white-space: nowrap;
+  overflow: hidden;
+  height: 30px
+}
+
+label.round-edit-row {
+  line-height: 25px;
+  text-align: right
+}

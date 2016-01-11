@@ -7,7 +7,7 @@ class CourseController extends BaseController{
   }
   public static function show($id) {
     $course = Course::find($id);
-    View::make('course/show.html', array('course' => $course));
+    View::make('course/show.html', array('course' => $course, 'is_moderator' => self::is_moderator($id)));
   }
   public static function create() {
     $player = self::get_user_logged_in();

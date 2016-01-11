@@ -8,7 +8,7 @@ class Moderator {
 
     $players = array();
     foreach($rows as $row) {
-      $players[] = Player::find($row['playerid']);
+      $players[] = $row['playerid'];
     }
     return $players;
   }

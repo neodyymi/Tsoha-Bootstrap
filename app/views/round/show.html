@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-sm-10 well well-sm">
         <div class="h4">
-          <a href="{{base_path}}/course/{{round.course.id}}">{{round.course.name}}</a><br>
+          <a href="{{base_path}}/course/{{course.id}}">{{course.name}}</a><br>
         </div>
         <div>
           <strong>{{round.played|date("d.m.Y H:i", "Europe/Helsinki")}}</strong><br>
@@ -50,7 +50,7 @@
         {% endfor %}
       </thead>
       <tbody>
-        {% for i in 0..17 %}
+        {% for i in range(0, holes-1) %}
         <tr>
           <td>
             {{i+1}}

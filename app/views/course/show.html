@@ -9,8 +9,11 @@
           <strong>{{course.name}}</strong><br>
         </div>
         <div>
-          {{forms.edit_link("#{base_path}/course/#{course.id}/edit")}}
-          {{forms.destroy_button("#{base_path}/course/#{course.id}/destroy")}}
+          {{forms.add_round_link("#{base_path}/course/#{course.id}/add")}}
+          {% if user_logged_in.admin or is_moderator %}
+            {{forms.edit_link("#{base_path}/course/#{course.id}/edit")}}
+            {{forms.destroy_button("#{base_path}/course/#{course.id}/destroy")}}
+          {% endif %}
         </div>
         <div>
           {{course.description}}

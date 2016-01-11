@@ -74,6 +74,10 @@
     RoundController::create();
   });
 
+  $routes->post('/round/new', function() {
+    RoundController::create();
+  });
+
   $routes->get('/round/:id', function($id) {
     RoundController::show($id);
   });
@@ -108,6 +112,9 @@
   });
   $routes->post('/player/new', function() {
     PlayerController::store();
+  });
+  $routes->get('/player/:id', function($id) {
+    PlayerController::show($id);
   });
   $routes->get('/player/:id/edit', function($id) {
     PlayerController::edit($id);

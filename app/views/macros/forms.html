@@ -7,3 +7,7 @@
 {% macro edit_link(action, text) %}
   <a href="{{action}}" class="btn btn-warning btn-xs">{{text|default('Muokkaa')}}</a>
 {% endmacro %}
+
+{% macro add_round_link(action, text) %}
+  <a href="{{action}}" class="btn btn-primary btn-xs">{{text|default('Lisää kierros')}}</a>
+{% endmacro %}

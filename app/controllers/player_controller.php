@@ -18,9 +18,23 @@ class PlayerController extends BaseController{
   }
 
   public static function list_all() {
-    $player = self::get_user_logged_in();
+    // $player = self::get_user_logged_in();
+    // $scores = Score::find_by_player($player->id);
+    // View::make('player/show.html', array('player' => $player, 'scores' => $scores));
+    Redirect::to('/player/' . self::get_user_logged_in()->id);
+  }
+
+  public static function show($id) {
+    $player = Player::find($id);
+    $moderatorOf = Course::find_by_moderator($id);
+    $course = Course::find($player->course);
     $scores = Score::find_by_player($player->id);
-    View::make('player/show.html', array('scores' => $scores));
+    foreach($scores as $score) {
+      $score->round = Round::find($score->roundId);
+    }
+    // $rounds = Round::find_by_player($player->id);
+    // Kint::dump($rounds);
+    View::make('player/show.html', array('player' => $player, 'scores' => $scores, 'moderatorOf' => $moderatorOf, 'course' => $course));
   }
 
   public static function logout() {

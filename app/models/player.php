@@ -43,17 +43,14 @@ class Player extends BaseModel {
     $query->execute(array('id' => $id));
     $row = $query->fetch();
 
-    $courses = Course::find_by_moderator($id);
-
     if($row) {
       $player = new Player(array(
         'id' => $row['id'],
         'name' => $row['name'],
         'courseId' => $row['courseid'],
-        'course' => Course::find($row['courseid']),
+        'course' => $row['courseid'],
         'username' => $row['username'],
         'password' => $row['password'],
-        'moderator' => $courses,
         'admin' => $row['admin'],
         'joined' => $row['joined'],
         'login' => $row['login']
