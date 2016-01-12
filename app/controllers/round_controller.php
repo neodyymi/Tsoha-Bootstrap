@@ -1,18 +1,37 @@
 <?php
+/**
+* RoundController handles round related requests.
+*/
 class RoundController extends BaseController {
 
+  /**
+  * Lists all rounds.
+  */
   public static function list_all() {
     $rounds = Round::all();
     View::make('round/list.html', array('rounds' => $rounds));
   }
+
+  /**
+  * Displays selected round information.
+  *
+  * @param int $id Id of selected round.
+  */
   public static function show($id) {
     $round = Round::find($id);
     $course = Course::find($round->courseId);
     $holes = Hole::count_holes($round->courseId);
     $scores = Score::find_by_round2($id);
+    $addedBy = Player::find($round->addedBy);
 
-    View::make('round/show.html', array('round' => $round, 'scores' => $scores, 'holes' => $holes, 'course' => $course));
+    View::make('round/show.html', array('round' => $round, 'scores' => $scores, 'holes' => $holes, 'course' => $course, 'addedBy' => $addedBy));
   }
+
+  /**
+  * Displays new round creation page.
+  *
+  * @param int $courseId Id of course the new round will be created in. Defaults to null.
+  */
   public static function create($courseId = null) {
     $player = self::get_user_logged_in();
     if(!$player) {
@@ -34,7 +53,11 @@ class RoundController extends BaseController {
     }
   }
 
-
+  /**
+  * Displays edit page for selected round.
+  *
+  * @param int $id Id of selected round.
+  */
   public static function edit($id) {
     $player = self::get_user_logged_in();
     if(!$player) {
@@ -50,6 +73,9 @@ class RoundController extends BaseController {
     }
   }
 
+  /**
+  * Checks if round is ready to be saved. If not, displays new round creation page with information already inputted. If yes, attempts to store new round and related scores.
+  */
   public static function store(){
 
     $player = self::get_user_logged_in();
@@ -57,7 +83,7 @@ class RoundController extends BaseController {
       View::make('player/login.html', array('error' => 'Vain kirjautuneet käyttäjät voivat lisätä ratoja.'));
     }
     $params = $_POST;
-    if($params['numberOfPlayers'] != $params['numberOfPlayers_orig'] or $params['course'] != $params['course_orig']) {
+    if($params['numberOfPlayers'] != $params['numberOfPlayers_orig'] or $params['course'] != $params['course_orig']) {// If course or number of players selection has changed we need to display create page again with new information.
       $playerScores = array();
       $numberOfHoles = Hole::count_holes($params['course_orig']);
       for ($i=1; $i <= $params['numberOfPlayers_orig']; $i++) {
@@ -103,13 +129,17 @@ class RoundController extends BaseController {
     }
   }
 
+  /**
+  * Checks if round is ready to be saved. If not, displays round edit page with information already inputted. If yes, attempts to update selected round and related scores.
+  *
+  * @param int $id Id of selected round.
+  */
   public static function update($id) {
     $player = self::get_user_logged_in();
     if(!$player) {
       View::make('player/login.html', array('error' => 'Vain kirjautuneet käyttäjät voivat muokata ratoja.'));
     }
     $params = $_POST;
-
     $players = Player::all();
     $course = Course::find($params['course']);
     $courses = Course::all();
@@ -118,7 +148,7 @@ class RoundController extends BaseController {
     $holes = Hole::find_by_course($course->id);
     $scores = Score::find_by_round($id);
     $numberOfPlayers = sizeof($scores);
-    if($params['course'] != $params['course_orig']) {
+    if($params['course'] != $params['course_orig']) { // If course selection has changed we need to display edit page again with new information.
       $playerScores = array();
       $numberOfHoles = Hole::count_holes($params['course_orig']);
       for ($i=1; $i <= $numberOfPlayers; $i++) {
@@ -137,23 +167,11 @@ class RoundController extends BaseController {
 
       $playerScores = array();
       $numberOfHoles = Hole::count_holes($params['course_orig']);
-
       $round = new Round(array_merge(array("id" => $round->id), $attributes));
       $errors = $round->errors();
 
       if(count($errors) == 0) {
-        // Kint::dump($round);
-        // return;
         $round->update();
-        // if($ret) {
-        //   echo "joo".$ret;
-        //   Kint::dump($round);
-        // } else {
-        //   echo "ei".$ret;
-        //   Kint::dump($round);
-        // }
-        // Kint::dump($params);
-        // return;
         for ($i=1; $i <= $numberOfPlayers; $i++) {
           $holeScores = array();
           $scoreId = $params['score_' . $i];
@@ -162,9 +180,7 @@ class RoundController extends BaseController {
             $holeScores[] = array('throws' => $params['p' . $i . '_h' . $j], 'holeId' => $hole->id, 'holenumber' => $j);
           }
           $score = new Score(array('id' => $scoreId, 'playerId' => $params['player_' . $i], 'roundId' => $round->id, 'scores' => $holeScores));
-
           $score->update();
-
         }
         Redirect::to('/round/' . $round->id, array('message' => 'Kierrosta muokattu.'));
       } else {
@@ -173,6 +189,11 @@ class RoundController extends BaseController {
     }
   }
 
+  /**
+  * Attempts to destroy selected round.
+  *
+  * @param int $id Id of round to be deleted.
+  */
   public static function destroy($id) {
     $round = new Round(array('id' => $id));
     $round->destroy();

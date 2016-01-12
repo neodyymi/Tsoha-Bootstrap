@@ -9,7 +9,9 @@
           <strong>{{course.name}}</strong><br>
         </div>
         <div>
+          {% if user_logged_in %}
           {{forms.add_round_link("#{base_path}/course/#{course.id}/add")}}
+          {% endif %}
           {% if user_logged_in.admin or is_moderator %}
             {{forms.edit_link("#{base_path}/course/#{course.id}/edit")}}
             {{forms.destroy_button("#{base_path}/course/#{course.id}/destroy")}}

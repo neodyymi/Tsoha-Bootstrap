@@ -1,14 +1,30 @@
 <?php
+/**
+ *  CourseController handles course related requests.
+ */
 class CourseController extends BaseController{
 
+  /**
+   * Lists all courses.
+   */
   public static function list_all() {
     $courses = Course::all();
     View::make('course/list.html', array('courses' => $courses));
   }
+
+  /**
+   * Displays one course.
+   *
+   * @param int $id Id of course to be displayed.
+   */
   public static function show($id) {
     $course = Course::find($id);
     View::make('course/show.html', array('course' => $course, 'is_moderator' => self::is_moderator($id)));
   }
+
+  /**
+   * Displays new course creation page.
+   */
   public static function create() {
     $player = self::get_user_logged_in();
     if(!$player) {
@@ -17,6 +33,12 @@ class CourseController extends BaseController{
       View::make('course/new.html');
     }
   }
+
+  /**
+   * Displays course edit page.
+   *
+   * @param int $id Id of course to be edited.
+   */
   public static function edit($id) {
     $player = self::get_user_logged_in();
     if(!$player) {
@@ -28,8 +50,10 @@ class CourseController extends BaseController{
     }
   }
 
+  /**
+   * Attempts to save new course and redirect to the newly created course.
+   */
   public static function store(){
-
     $player = self::get_user_logged_in();
     if(!$player) {
       View::make('player/login.html', array('error' => 'Vain kirjautuneet käyttäjät voivat lisätä ratoja.'));
@@ -59,6 +83,11 @@ class CourseController extends BaseController{
     }
   }
 
+  /**
+   * Attempts to update edited course information and displays the edited course.
+   *
+   * @param int $id Id of course to be updated.
+   */
   public static function update($id) {
     $player = self::get_user_logged_in();
     if(!$player) {
@@ -94,6 +123,11 @@ class CourseController extends BaseController{
     }
   }
 
+  /**
+   * Attempts to destroy selected course and displays course listing.
+   *
+   * @param int $id Id of course to be deleted.
+   */
   public static function destroy($id) {
     $course = new Course(array('id' => $id));
     $course->destroy();

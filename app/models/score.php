@@ -1,11 +1,26 @@
 <?php
+/**
+* Model class for score.
+*/
 class Score extends BaseModel {
   public $id, $playerId, $playerName, $roundId, $round, $throws, $par, $holes, $scores;
 
+  /**
+  * Constructor for score.
+  *
+  * @param array $attributes Contains all the parameters to be stored for the object.
+  *
+  * @return Score Returns the newly created object.
+  */
   public function __construct($attributes){
     parent::__construct($attributes);
   }
 
+  /**
+  * Fetches all scores from database.
+  *
+  * @return array Returns a listing of all scores in database.
+  */
   public static function all() {
     $query = DB::connection()->prepare('SELECT * FROM Score');
     $query->execute();
@@ -29,6 +44,13 @@ class Score extends BaseModel {
     return $scores;
   }
 
+  /**
+  * Fetches all scores in selected round.
+  *
+  * @param int $roundId Id of selected round.
+  *
+  * @return array Returns all scores from selected round.
+  */
   public static function find_by_round($roundId) {
     $query = DB::connection()->prepare('SELECT s.id, s.roundid, s.playerid, p.name as name FROM Score s LEFT JOIN Player p ON s.playerid=p.id WHERE roundid = :roundId');
     $query->execute(array('roundId' => $roundId));
@@ -54,6 +76,13 @@ class Score extends BaseModel {
     return $scores;
   }
 
+  /**
+  * Fetches all players who played on selected round and their scores.
+  *
+  * @param int $roundId Id of selected round.
+  *
+  * @return array Returns array with a combination of players who played the round and their respective scores on that round.
+  */
   public static function find_by_round2($roundId) {
     $players = Player::find_by_round($roundId);
     $playerScores = array();
@@ -63,6 +92,14 @@ class Score extends BaseModel {
     return $playerScores;
   }
 
+  /**
+  * Fetches scoreinformation for selected player on selected round.
+  *
+  * @param int $roundId Id of selected round.
+  * @param int $playerId Id of selected player.
+  *
+  * @return array Returns array containing score for all holes on selected round by selected player.
+  */
   public static function find_by_round_and_player($roundId, $playerId) {
     $query = DB::connection()->prepare('SELECT sh.throws, h.holenumber, h.par FROM Score_Hole sh JOIN Score s ON sh.scoreId = s.id JOIN Hole h on h.id = sh.holeId WHERE s.playerid = :playerId AND s.roundId = :roundId ORDER BY holenumber');
     $query->execute(array('roundId' => $roundId, 'playerId' => $playerId));
@@ -80,6 +117,13 @@ class Score extends BaseModel {
     return $scores;
   }
 
+  /**
+  * Fetches all scores related to selected player.
+  *
+  * @param int $playerId Id of selected player.
+  *
+  * @return array Returns listing of scores related to selected player.
+  */
   public static function find_by_player($playerId) {
     $query = DB::connection()->prepare('SELECT * FROM Score WHERE playerid = :playerId');
     $query->execute(array('playerId' => $playerId));
@@ -103,6 +147,13 @@ class Score extends BaseModel {
     return $scores;
   }
 
+  /**
+  * Fetches one score from database.
+  *
+  * @param int $id Id of score to be fetched.
+  *
+  * @return Score Returns score if found. Otherwise returns null.
+  */
   public static function find($id) {
     $query = DB::connection()->prepare('SELECT * FROM Score WHERE id = :id LIMIT 1');
     $query->execute(array('id' => $id));
@@ -128,6 +179,13 @@ class Score extends BaseModel {
 
   }
 
+  /**
+  * Calculates total par and throws for selected score.
+  *
+  * @param int $id Id of selected score.
+  *
+  * @return array Returns array with par and throws for selected score.
+  */
   public static function getScore($id) {
     $query = DB::connection()->prepare('SELECT * FROM Score_Hole WHERE scoreid = :id');
     $query->execute(array('id' => $id));
@@ -150,39 +208,9 @@ class Score extends BaseModel {
     return $return;
   }
 
-  public static function saveRoundScores($params) {
-    $holes = Hole::count_holes($params['course']);
-    $players = $params['players'];
-    $course = $params['course'];
-
-  }
-
-  public static function updateRoundScores($params) {
-    $holes = Hole::count_holes($params['course']);
-    $players = array();
-    $score = null;
-    for ($i=0; $i < $params['players']; $i++) {
-      $split = explode('_', $params['player' . $i]);
-      $players[] = array('player' => $split[0], 'score' => $split[1]);
-      $score = new Score(array('id' => $split[1], 'playerId' => $split[0], 'roundId' => '3'));
-    }
-    foreach ($players as $player) {
-
-    }
-
-    $score->update();
-  }
-
-  public static function updatePlayerRound($player, $round, $scores) {
-    foreach ($scores as $score) {
-
-    }
-  }
-
-  public static function updateScoreHole($score, $hole, $result) {
-
-  }
-
+  /**
+  * Saves score to database and adds related throws and relations to holes into score_hole table.
+  */
   public function save() {
     $query = DB::connection()->prepare('INSERT INTO Score (roundid, playerid) VALUES (:roundId, :playerId) RETURNING id');
     $query->execute(array('roundId' => $this->roundId, 'playerId' => $this->playerId));
@@ -194,6 +222,9 @@ class Score extends BaseModel {
     }
   }
 
+  /**
+  * Updates score and updates related throws and relations to holes into score_hole table.
+  */
   public function update() {
     $query = DB::connection()->prepare('UPDATE Score SET roundid = :roundId, playerid = :playerId WHERE id = :id');
     $query->execute(array('roundId' => $this->roundId, 'playerId' => $this->playerId, 'id' => $this->id));
@@ -213,6 +244,10 @@ class Score extends BaseModel {
     }
     $this->clean();
   }
+
+  /**
+  * Deletes orphaned rows from score_hole table.
+  */
   public function clean() {
     $courseId = Round::find($this->roundId)->courseId;
     $query = DB::connection()->prepare('DELETE FROM score_hole WHERE holeid IN (SELECT sh.holeid FROM score_hole sh JOIN score s ON s.id = sh.scoreid JOIN hole h ON h.id = sh.holeid WHERE s.id = 1 AND NOT h.courseid = :courseid) AND scoreid IN (SELECT sh.scoreid FROM score_hole sh JOIN score s ON s.id = sh.scoreid JOIN hole h ON h.id = sh.holeid WHERE s.id = 1 AND NOT h.courseid = :courseid)');

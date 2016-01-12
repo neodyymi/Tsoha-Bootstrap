@@ -25,8 +25,12 @@
     }
 
     public static function is_moderator($course) {
-      $moderators = Moderator::find_by_course($course);
-      return in_array(self::get_user_logged_in()->id, $moderators);
+      $player = self::get_user_logged_in();
+      if($player) {
+        $moderators = Moderator::find_by_course($course);
+        return in_array($player->id, $moderators);
+      }
+      return false;
     }
 
     public static function check_logged_in(){

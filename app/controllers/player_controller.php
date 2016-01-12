@@ -1,10 +1,16 @@
 <?php
 class PlayerController extends BaseController{
 
+  /**
+   * Displays login page.
+   */
   public static function login() {
     View::make('player/login.html');
   }
 
+  /**
+   * Checks inputted login information and, if successful, creates a session for logged in user.
+   */
   public static function handle_login() {
     $params = $_POST;
     $player = Player::authenticate($params['username'], $params['password']);
@@ -17,6 +23,9 @@ class PlayerController extends BaseController{
     }
   }
 
+  /**
+   * Redirects to a listing of current logged in user list of all played rounds.
+   */
   public static function list_all() {
     // $player = self::get_user_logged_in();
     // $scores = Score::find_by_player($player->id);
@@ -24,6 +33,11 @@ class PlayerController extends BaseController{
     Redirect::to('/player/' . self::get_user_logged_in()->id);
   }
 
+  /**
+   * Displays a listing of a user's list of all played rounds.
+   *
+   * @param int $id Id of player to be displayed.
+   */
   public static function show($id) {
     $player = Player::find($id);
     $moderatorOf = Course::find_by_moderator($id);
@@ -37,11 +51,17 @@ class PlayerController extends BaseController{
     View::make('player/show.html', array('player' => $player, 'scores' => $scores, 'moderatorOf' => $moderatorOf, 'course' => $course));
   }
 
+  /**
+  * Attempts to logout current user destroying the assigned session.
+  */
   public static function logout() {
     $_SESSION['user'] = null;
     Redirect::to('/login', array('message' => 'Olet kirjautunut ulos.'));
   }
 
+  /**
+  * Displays new user registeration page.
+  */
   public static function create() {
     if(self::get_user_logged_in()) {
       Redirect::to('/player', array('message' => 'Olet jo kirjautunut sisään.'));
@@ -51,6 +71,11 @@ class PlayerController extends BaseController{
     }
   }
 
+  /**
+  * Displays edit user page for selected user.
+  *
+  * @param int $id Id of selected user.
+  */
   public static function edit($id) {
     if(self::get_user_logged_in()->id != $id && !self::is_admin()) {
       Redirect::to('/', array('error' => 'Sinulla ei ole oikeuksia muokata tämän käyttäjän tietoja.'));
@@ -61,6 +86,9 @@ class PlayerController extends BaseController{
     }
   }
 
+  /**
+  * Attempts to store a newly created user.
+  */
   public static function store(){
     $params = $_POST;
     if(!is_numeric($params['courseid'])) {
@@ -86,6 +114,11 @@ class PlayerController extends BaseController{
     }
   }
 
+  /**
+  * Attempts to update an edited users information.
+  *
+  * @param int $id Id of edited user.
+  */
   public static function update($id) {
     $params = $_POST;
     if(!is_numeric($params['courseid'])) {
@@ -117,6 +150,11 @@ class PlayerController extends BaseController{
     }
   }
 
+  /**
+  * Attempts to destroy selected user.
+  *
+  * @param int $id Id of user to be deleted.
+  */
   public static function destroy($id) {
     $player = new Player(array('id' => $id));
     $player->destroy();

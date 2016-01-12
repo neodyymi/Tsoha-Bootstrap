@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="col-xs-offset-0 col-xs-sm-12 col-md-offset-11 col-md-1">
+    {% if user_logged_in %}
     <a href="{{base_path}}/course/new" class="btn btn-sm btn-default">Lisää rata</a>
+    {% endif %}
   </div>
   <table class="table table-hover table-responsive">
     <thead>
