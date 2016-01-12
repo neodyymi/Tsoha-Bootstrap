@@ -121,6 +121,18 @@ Tulos on yhden pelaajan tulos. Käyttäjä kenttä voi olla tyhjä, jos pelaaja 
 \subsection{Relaatiotietokantakaavio}
 \includegraphics[scale=0.6]{tsoha_relaatiotietokantakaavio}
 \newpage
+\section{Järjestelmän yleisrakenne}
+Tietokantasovellusta rakennettaessa on pääsääntöisesti noudatettu MVC-mallia. Malliin kuuluvat mallit, näkymät ja kontrollerit sijaitsevat hakemistoissa \texttt{models}, \texttt{views} ja \texttt{controllers}. Eri malleihin liittyvät näkymät ovat omissa kansioissaan. Malleihin ja kontrollereihin liittyvät tiedostot on nimetty kyseisen mallin nimen mukaan.
+Käytetyt apukirjastot on sijoitettu hakemistoon \texttt{lib} ja asetukset hakemistoon \texttt{config}.
+\texttt{views/macros} sisältää useissa näkymissä käytettäviä funktioita.
+\texttt{assets/css} sisältää sivuston omia tyylimäärityksiä.
+Kaikki muokkaussivut ja uuden käyttäjän luomissivua lukuunottamatta kaikki luomissivut ovat rajoitetun pääsyn alla. Käyttäjää saa muokata vain käyttäjä itse tai ylläpitäjät.
+\newpage
+\section{Käyttöliittymä ja järjestelmän komponentit}
+\includegraphics[scale=0.5]{tsoha_kayttoliittymakaavio}
+Lisäksi jokaisella sivulla on navigaatiopalkki, josta pääsee etusivulle, ratalistaukseen, kierroslistaukseen, sekä pelaajan omalle sivulle tai kirjautumiseen, jos käyttäjä ei ole kirjautunut.
+Etusivu on sama sivu kuin ratalistaus.
+\newpage
 \section{Käyttöönotto}
 \subsection{Asennustiedot}
 Sovellus asennetaan kopioimalla sen tiedostot palvelimelle hakemistoon joka näkyy ulospäin verkkoon (esim. htdocs tai vastaava). 

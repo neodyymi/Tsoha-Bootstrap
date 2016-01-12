@@ -108,7 +108,7 @@ class PlayerController extends BaseController{
 
     if(count($errors) == 0) {
       $player->save();
-      Redirect::to('/player', array('message' => 'Käyttäjä lisätty.'));
+      Redirect::to('/player/' . $player->id, array('message' => 'Käyttäjä lisätty.'));
     } else {
       View::make('player/new.html', array('errors' => $errors, 'attributes' => $attributes));
     }
