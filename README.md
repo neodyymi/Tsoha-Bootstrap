@@ -29,3 +29,5 @@ Frisbeegolf on kilpailullinen laji ja harrastajat pitävät mielellään tuloksi
   * jbauer : jackisbest
   * average : average
   * barry : barry
+
+## Viikko 5 ja lopullinen palautus

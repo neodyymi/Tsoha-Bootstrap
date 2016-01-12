@@ -1,6 +1,6 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <h1 class="text-center">Kirjaudu sisään</h1>
+
 <form method="post" action="{{base_path}}/login">
   <div class=form-group>
     <label class="col-sm-offset-2 col-sm-3 control-label">Käyttäjätunnus tai sähköposti</label>
@@ -24,12 +24,9 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-5 col-sm-5">
-      <button type="submit" class="btn btn-default">Kirjaudu</button>
+    <div class="col-sm-offset-5 col-sm-7 form-inline">
+      <button type="submit" class="btn btn-primary">Kirjaudu</button> <a href="{{base_path}}/player/new" class="btn btn-default">Rekisteröidy</a>
     </div>
   </div>
 </form>
-<div>
-  <a href="{{base_path}}/player/new">Rekisteröidy</a>
-</div>
 {% endblock %}
